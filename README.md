@@ -29,7 +29,7 @@ liboqs-python
 ## Installation
 Clone the repository:
 ```
-git clone https://github.com/<your-username>/hybrid-post-quantum-chat.git
+git clone https://github.com/Mandar-afk/hybrid-post-quantum-chat.git
 cd hybrid-post-quantum-chat
 ```
 
