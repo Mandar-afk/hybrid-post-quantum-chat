@@ -27,16 +27,7 @@ cryptography
 liboqs-python
 ```
 ## Installation
-Clone the repository:
-```
-git clone https://github.com/Mandar-afk/hybrid-post-quantum-chat.git
-cd hybrid-post-quantum-chat
-```
-
-Install dependencies:
-```
-pip install -r requirements.txt
-```
+Check the Installation.md file.
 
 ## Usage
 
