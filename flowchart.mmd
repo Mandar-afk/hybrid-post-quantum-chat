@@ -1,0 +1,34 @@
+graph TD
+    A[Client (User A)] -->|Send RSA Public Key| B[Server (User B)]
+    B -->|Send RSA Public Key| A
+    B -->|Generate Kyber keypair| B
+    B -->|Send Kyber Public Key| A
+    A -->|Send RSA-encrypted AES Key| B
+    A -->|Send Kyber ciphertext / shared secret| B
+    B -->|Decapsulate Kyber / Decrypt AES Key| B
+    B -->|Derive final AES Key| B
+    A -->|Encrypt message with AES-GCM| B
+    B -->|Decrypt message with AES-GCM| B
+    B -->|Optional Reply AES-GCM| A
+
+flowchart TD
+    start([Start])
+    start --> gen_keysA[Generate Client RSA Keypair]
+    gen_keysA --> send_rsaA[Send Client RSA Public Key]
+    send_rsaA --> recv_rsaB[Receive Server RSA Public Key]
+    recv_rsaB --> recv_kyber[Receive Server Kyber Public Key]
+    recv_kyber --> gen_aes[Generate Classical AES Key]
+    gen_aes --> enc_rsa[Encrypt AES Key with Server RSA]
+    enc_rsa --> send_rsa_key[Send RSA-encrypted AES Key]
+    send_rsa_key --> enc_kem[Encapsulate Kyber shared secret]
+    enc_kem --> send_kem[Send Kyber ciphertext / shared secret]
+    send_kem --> derive_aes[Derive final AES Key (SHA256)]
+    derive_aes --> aes_encrypt[AES-GCM Encrypt Message]
+    aes_encrypt --> send_msg[Send Encrypted Message]
+    send_msg --> recv_msg_server[Server Receives Message]
+    recv_msg_server --> dec_rsa[Decrypt AES Key (RSA)]
+    dec_rsa --> dec_kem[Decapsulate Kyber / Derive Shared Secret]
+    dec_kem --> derive_aes_srv[Derive final AES Key (SHA256)]
+    derive_aes_srv --> aes_decrypt[AES-GCM Decrypt Message]
+    aes_decrypt --> optional_reply[Optional Reply with AES-GCM]
+    optional_reply --> end([End])
